@@ -9,6 +9,6 @@ deployment:
     branch: master
     commands:
       - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
-      - git push git@heroku.com:sy-img-fav.git $CIRCLE_SHA1:refs/heads/master
-      - heroku run rake db:migrate --app sy-img-fav:
+      - git push git@heroku.com:oikawa-img-fav.git $CIRCLE_SHA1:refs/heads/master
+      - heroku run rake db:migrate --app oikawa-img-fav:
          timeout: 400
