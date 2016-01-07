@@ -25,6 +25,11 @@ describe ImagesController do
       end
     end
     describe "GET edit" do
+      it "dose not edit other image" do
+        image = FactoryGirl.create(:image, user_id: @user.id+1)
+        get :edit, id: image.id
+        expect(response).to redirect_to image_url
+      end
     end
     context "with valid value" do
       describe "POST create" do
@@ -34,7 +39,7 @@ describe ImagesController do
           }.to change(Image, :count).by(1)
         end
       end
-      describe "PUT update" do
+      describe "PUT update" dogit 
         it "update image" do
           image = FactoryGirl.create(:image)
           before_title = image.title
