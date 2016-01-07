@@ -39,7 +39,7 @@ describe ImagesController do
           }.to change(Image, :count).by(1)
         end
       end
-      describe "PUT update" dogit 
+      describe "PUT update" do
         it "update image" do
           image = FactoryGirl.create(:image)
           before_title = image.title
