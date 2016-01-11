@@ -81,6 +81,11 @@ describe UsersController do
           delete :destroy, id: @user
         }.to change(User, :count).by(-1)
       end
+      it "does not destroy the requested user" do
+        user = FactoryGirl.create(:user, id: @user.id+1)
+        delete :destroy, id: user
+        expect(response).to redirect_to user_url
+      end
       it "redirects to the users list" do
         delete :destroy, id: @user
         expect(response).to redirect_to users_url

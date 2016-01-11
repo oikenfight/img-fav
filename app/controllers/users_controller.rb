@@ -23,7 +23,6 @@ class UsersController < ApplicationController
     if @user.id != @current_user.id
       redirect_to user_url, notice: '他のユーザの情報は編集できません'
     end
-
   end
 
   # POST /users
