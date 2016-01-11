@@ -74,12 +74,22 @@ describe UsersController do
         get :edit, id: @user
         expect(assigns(:user)).to eq @user
       end
+      it "does not assign the request usser as @user" do
+        user = FactoryGirl.create(:user, id: @user.id+1)
+        get :edit, id: user
+        expect(response).to redirect_to user_url
+      end
     end
     describe "DELETE destroy" do
       it "destroys the requested user" do
         expect{
           delete :destroy, id: @user
         }.to change(User, :count).by(-1)
+      end
+      it "does not destroy the requested user" do
+        user = FactoryGirl.create(:user, id: @user.id+1)
+        delete :destroy, id: user
+        expect(response).to redirect_to user_url
       end
       it "redirects to the users list" do
         delete :destroy, id: @user
