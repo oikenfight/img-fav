@@ -23,7 +23,6 @@
         <td>
             <% if @current_user && !@current_user.favorites.select{|img| img.image_id == image.id}.empty? %>
                 favorite
-            <%else%>
             <%end%>
         </td>
         <td><%= link_to 'Show', image, class: "btn btn-primary" %></td>

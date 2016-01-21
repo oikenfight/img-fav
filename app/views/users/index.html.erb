@@ -17,9 +17,7 @@
       <tr>
         <td><%= user.name %></td>
         <td>
-          <% # if user.id == @current_user.id %>
-            <%= link_to 'Show', user, class: "btn btn-primary" %>
-          <% # end %>
+          <%= link_to 'Show', user, class: "btn btn-primary" %>
         </td>
       </tr>
     <% end %>
