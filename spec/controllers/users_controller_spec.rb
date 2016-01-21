@@ -27,13 +27,6 @@ describe UsersController do
       expect(assigns(:users)).to match_array([user])
     end
   end
-  describe "GET show" do
-    it "assigns the requested user as @user" do
-      user = FactoryGirl.create(:user)
-      get :show, id: user
-      expect(assigns(:user)).to eq user
-    end
-  end
   describe "GET new" do
     it "assigns a new user as @user" do
       get :new
@@ -68,6 +61,14 @@ describe UsersController do
     before :each do
       @user = FactoryGirl.create(:user, name: "Fuga")
       session[:user_id] = @user.id
+    end
+    describe "GET show" do
+      it "assigin the requested image as @image" do
+        image = FactoryGirl.create(:image)
+        favorite = FactoryGirl.create(:favorite, image: image, user: @user)
+        get :show, id: @user, image: image
+        expect(image.id).to eq favorite.image_id
+      end
     end
     describe "GET edit" do
       it "assigns the requested user as @user" do
@@ -134,6 +135,13 @@ describe UsersController do
         user = FactoryGirl.create(:user)
         delete :destroy, id: user
         expect(response).to redirect_to sessions_login_path
+      end
+    end
+    describe "GET show" do
+      it "redirect to users_path" do
+        user = FactoryGirl.create(:user)
+        get :show, id: user
+        expect(response).to redirect_to users_path
       end
     end
   end
