@@ -63,11 +63,16 @@ describe UsersController do
       session[:user_id] = @user.id
     end
     describe "GET show" do
-      it "assigin the requested image as @image" do
+      it "assigin the requested fav_images as @fav_images" do
         image = FactoryGirl.create(:image)
         favorite = FactoryGirl.create(:favorite, image: image, user: @user)
         get :show, id: @user, image: image
         expect(image.id).to eq favorite.image_id
+      end
+      it "assign the requested my_images as @my_images" do
+        image = FactoryGirl.create(:image, user_id: @user.id)
+        get :show, id:@user, image: image
+        expect(image.user_id).to eq @user.id
       end
     end
     describe "GET edit" do

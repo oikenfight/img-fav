@@ -17,7 +17,8 @@ class UsersController < ApplicationController
       favorite_images.each do |img|
         favorite_images_id_array.append(img.image_id)
       end
-      @images = Image.where(id: favorite_images_id_array)
+      @fav_images = Image.where(id: favorite_images_id_array)
+      @my_images = Image.where(user_id: @current_user.id)
     else
       redirect_to users_url, notice: 'ログインしていないと表示できません'
     end
