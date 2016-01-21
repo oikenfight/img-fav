@@ -25,6 +25,11 @@ describe ImagesController do
       end
     end
     describe "GET edit" do
+      it "dose not edit other image" do
+        image = FactoryGirl.create(:image, user_id: @user.id+1)
+        get :edit, id: image.id
+        expect(response).to redirect_to image_url
+      end
     end
     context "with valid value" do
       describe "POST create" do
@@ -36,20 +41,29 @@ describe ImagesController do
       end
       describe "PUT update" do
         it "update image" do
-          image = FactoryGirl.create(:image)
+          image = FactoryGirl.create(:image, user_id: @user.id)
           before_title = image.title
-          put :update, id: image.id, image: FactoryGirl.attributes_for(:image, title:"new title")
+          put :update, id: image.id, image: FactoryGirl.attributes_for(:image, title: "new title")
           image.reload
           expect(before_title).to_not eq image.title
         end
       end
     end
     describe "DELETE destroy" do
-      it "delete image" do
-        image = FactoryGirl.create(:image)
+      it "delete my image" do
+        # ログインしてかつ自分のIDがマッチした時
+        image = FactoryGirl.create(:image, user_id: @user.id
+                                   # user_id: 1
+                                   # :user_id => 1
+        )
         expect{
           delete :destroy, id: image
         }.to change(Image, :count).by(-1)
+      end
+      it "dose not delete other image" do
+        image = FactoryGirl.create(:image, user_id: @user.id+1)
+        delete :destroy, id: image
+        expect(response).to redirect_to image_url
       end
     end
   end

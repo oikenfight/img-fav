@@ -13,3 +13,7 @@
   <%= @user.name %>
 </p>
 </div>
+
+<%= render 'table', images: @my_images, title: '投稿画像一覧' %>
+
+<%= render 'table', images: @fav_images, title: 'お気に入り一覧' %>

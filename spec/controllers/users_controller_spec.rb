@@ -27,13 +27,6 @@ describe UsersController do
       expect(assigns(:users)).to match_array([user])
     end
   end
-  describe "GET show" do
-    it "assigns the requested user as @user" do
-      user = FactoryGirl.create(:user)
-      get :show, id: user
-      expect(assigns(:user)).to eq user
-    end
-  end
   describe "GET new" do
     it "assigns a new user as @user" do
       get :new
@@ -69,10 +62,28 @@ describe UsersController do
       @user = FactoryGirl.create(:user, name: "Fuga")
       session[:user_id] = @user.id
     end
+    describe "GET show" do
+      it "assigin the requested fav_images as @fav_images" do
+        image = FactoryGirl.create(:image)
+        favorite = FactoryGirl.create(:favorite, image: image, user: @user)
+        get :show, id: @user, image: image
+        expect(image.id).to eq favorite.image_id
+      end
+      it "assign the requested my_images as @my_images" do
+        image = FactoryGirl.create(:image, user_id: @user.id)
+        get :show, id:@user, image: image
+        expect(image.user_id).to eq @user.id
+      end
+    end
     describe "GET edit" do
       it "assigns the requested user as @user" do
         get :edit, id: @user
         expect(assigns(:user)).to eq @user
+      end
+      it "does not assign the request usser as @user" do
+        user = FactoryGirl.create(:user, id: @user.id+1)
+        get :edit, id: user
+        expect(response).to redirect_to user_url
       end
     end
     describe "DELETE destroy" do
@@ -80,6 +91,11 @@ describe UsersController do
         expect{
           delete :destroy, id: @user
         }.to change(User, :count).by(-1)
+      end
+      it "does not destroy the requested user" do
+        user = FactoryGirl.create(:user, id: @user.id+1)
+        delete :destroy, id: user
+        expect(response).to redirect_to user_url
       end
       it "redirects to the users list" do
         delete :destroy, id: @user
@@ -124,6 +140,13 @@ describe UsersController do
         user = FactoryGirl.create(:user)
         delete :destroy, id: user
         expect(response).to redirect_to sessions_login_path
+      end
+    end
+    describe "GET show" do
+      it "redirect to users_path" do
+        user = FactoryGirl.create(:user)
+        get :show, id: user
+        expect(response).to redirect_to users_path
       end
     end
   end

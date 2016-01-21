@@ -11,6 +11,17 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    if @current_user
+      favorite_images_id_array = []
+      favorite_images = @current_user.favorites.select("image_id")
+      favorite_images.each do |img|
+        favorite_images_id_array.append(img.image_id)
+      end
+      @fav_images = Image.where(id: favorite_images_id_array)
+      @my_images = Image.where(user_id: @current_user.id)
+    else
+      redirect_to users_url, notice: 'ログインしていないと表示できません'
+    end
   end
 
   # GET /users/new
@@ -20,6 +31,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    if @user.id != @current_user.id
+      redirect_to user_url, notice: '他のユーザの情報は編集できません'
+    end
   end
 
   # POST /users
@@ -55,10 +69,14 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
+    if @user.id == @current_user.id
+      @user.destroy
+      respond_to do |format|
+        format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to user_url,  notice: '他のユーザの情報は削除できません'
     end
   end
 
