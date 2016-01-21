@@ -7,6 +7,7 @@ describe "images/index" do
       FactoryGirl.create(:image, title: "Hoge"),
       FactoryGirl.create(:image, title: "Fuga")
     ])
+    @form = Image.new
   end
   it "renders a list of all images" do
     render
