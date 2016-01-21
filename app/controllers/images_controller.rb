@@ -5,7 +5,12 @@ class ImagesController < ApplicationController
   # GET /images
   # GET /images.json
   def index
-    @images = Image.all
+    @form = Image.new
+    @images = Image.order("updated_at DESC")
+    if params[:image]
+      keyword = "%#{params[:image][:title]}%"
+      @images = Image.where("title LIKE ?", keyword).order("updated_at DESC")
+    end
   end
 
   # GET /images/1

@@ -4,6 +4,7 @@
   <tr>
     <th>title</th>
     <th>Image</th>
+    <th>contributor</th>
     <th colspan="3"></th>
   </tr>
   </thead>
@@ -13,6 +14,7 @@
       <tr>
         <td><%= image.title %></td>
         <td><%= image_tag(image.authenticated_image_url(:thumb)) if image.data.present? %></td>
+        <td><%= image.user.name %></td>
         <td><%= link_to 'Show', image, class: "btn btn-primary" %></td>
       </tr>
   <% end %>
