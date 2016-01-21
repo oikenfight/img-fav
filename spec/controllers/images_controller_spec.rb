@@ -41,9 +41,9 @@ describe ImagesController do
       end
       describe "PUT update" do
         it "update image" do
-          image = FactoryGirl.create(:image)
+          image = FactoryGirl.create(:image, user_id: @user.id)
           before_title = image.title
-          put :update, id: image.id, image: FactoryGirl.attributes_for(:image, title:"new title")
+          put :update, id: image.id, image: FactoryGirl.attributes_for(:image, title: "new title")
           image.reload
           expect(before_title).to_not eq image.title
         end
