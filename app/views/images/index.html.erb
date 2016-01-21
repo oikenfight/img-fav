@@ -5,6 +5,21 @@
     <h1>Listing Images</h1>
     <%= link_to 'New Image', new_image_path, class: "btn btn-success pull-right" %>
 </div>
+
+<%= form_for @form, url: images_path, method: :get do |f| %>
+    <form class="form-group">
+      <div class="col-sm-1 control-label">
+        <%= f.label :title, "title" %>
+      </div>
+      <div class="col-sm-3">
+        <%= f.text_field :title, class: "form-control", placeholder: "keyword" %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.submit "Search", class: "btn btn-primary" %>
+      </div>
+    </form>
+<% end %>
+
 <table class="table">
   <thead>
     <tr>
