@@ -11,7 +11,8 @@
         <th>Title</th>
         <th>Image</th>
         <th>Fav?</th>
-      <th colspan="3"></th>
+        <th>contributor</th>
+        <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -25,6 +26,7 @@
                 favorite
             <%end%>
         </td>
+        <td><%= image.user.name %></td>
         <td><%= link_to 'Show', image, class: "btn btn-primary" %></td>
       </tr>
     <% end %>
