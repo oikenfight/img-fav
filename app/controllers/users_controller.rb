@@ -11,12 +11,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    favorite_image_id_array = []
-    favorite_images = @current_user.favorites.select("image_id")
-    favorite_images.each do |img|
-      favorite_image_id_array.append(img.image_id)
+    if @current_user
+      favorite_images_id_array = []
+      favorite_images = @current_user.favorites.select("image_id")
+      favorite_images.each do |img|
+        favorite_images_id_array.append(img.image_id)
+      end
+      @images = Image.where(id: favorite_images_id_array)
+    else
+      redirect_to users_url, notice: 'ログインしていないと表示できません'
     end
-    @images = Image.where(id: favorite_image_id_array)
   end
 
   # GET /users/new
