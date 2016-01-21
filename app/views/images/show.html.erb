@@ -5,14 +5,14 @@
 <div class="row">
     <% if !@current_user.favorites.select{|img| img.image_id == @image.id}.empty? %>
       favorite
-    <%else%>
-    <%end%>
+    <% end %>
     <%= link_to 'Destroy', @image, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger pull-right" %>
     <%= link_to 'Edit', edit_image_path(@image), class: "btn btn-warning pull-right" %>
 </div>
 <% end %>
 <div class="row">
     <h3>Title: <%= @image.title %></h3>
+    <p>contributor: <%= @image.user.name %></p>
     <%= image_tag(@image.authenticated_image_url(:large)) if @image.data.present? %>
 </div>
 <% if @current_user %>
